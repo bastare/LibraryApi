@@ -25,5 +25,16 @@ class Library
     @unit.book.create    @books   unless @books.empty?
     @unit.order.create   @orders  unless @orders.empty?
     @unit.reader.create  @readers unless @readers.empty?
+
+    reset!
+  end
+
+  private
+
+  def reset!
+    @books.clear
+    @orders.clear
+    @readers.clear
+    @authors.clear
   end
 end
