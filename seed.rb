@@ -26,14 +26,16 @@ module Helper
       num.times do |i|
         author =  Models::Author.new(Random.rand(num), name: 'first', biography: '')
 
-        lib.books << Models::Book.new(i, book: "bo_#{i}", author: author)
+        lib.books << Models::Book.new(i, title: "bo_#{i}", author: author)
       end
     end
 
     def seed_order(lib, num)
       num.times do |i|
+        author =  Models::Author.new(Random.rand(num), name: 'first', biography: '')
+
         reader =  Models::Reader.new(Random.rand(num), name: '', house: 1, email: '', city: '', street: '')
-        book = Models::Book.new(Random.rand(num), title: '')
+        book = Models::Book.new(Random.rand(num), title: '', author: author)
 
         lib.orders << Models::Order.new(i, reader: reader, book: book)
       end

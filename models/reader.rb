@@ -14,11 +14,11 @@ module Models
 
       validate_house reader[:house]
 
-      @name   = reader[:name]
-      @house  = reader[:house]
-      @email  = reader[:email]
-      @city   = reader[:city]
-      @street = reader[:street]
+      @name   = reader[:name]   || raise_required
+      @house  = reader[:house]  || raise_required
+      @email  = reader[:email]  || raise_required
+      @city   = reader[:city]   || raise_required
+      @street = reader[:street] || raise_required
     end
 
     private

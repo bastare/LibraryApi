@@ -12,9 +12,9 @@ module Models
     def initialize(id, book)
       super id
 
-      @title = book[:title]
+      @title = book[:title]   || raise_required
 
-      @author = book[:author]
+      @author = book[:author] || raise_required
     end
   end
 end
