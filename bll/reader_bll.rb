@@ -17,10 +17,10 @@ module BLL
 
       statistic = init_readers_stat&.slice(0...limit).to_h
 
-      return result unless statistic&.empty?
+      return result unless statistic&.any?
 
-      statistic.each_pair do |key, value|
-        result << { reader: @unit.reader.fetch_entity(key), unique_books: value }
+      statistic.each_pair do |k, v|
+        result << { reader: @unit.reader.fetch_entity(k), unique_books: v }
       end
 
       result
@@ -31,13 +31,11 @@ module BLL
     def init_readers_stat
       orders = @unit.order.fetch_all || return
 
-      hash = {}
+      hash = Hash.new { |k, v| k[v] = [] }
 
       orders.collect do |i|
         book_id   = i.book.id
         reader_id = i.reader.id
-
-        hash[reader_id] = [] if hash[reader_id].nil?
 
         hash[reader_id] << book_id
       end
@@ -48,7 +46,7 @@ module BLL
     def map_result(hash)
       hash.each_value(&:uniq!)
 
-      hash.each { |key, value| hash[key] = value&.length }
+      hash.each { |k, v| hash[k] = v&.length || 0 }
 
       hash.sort_by { |_, v| -v }
     end

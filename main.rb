@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require_relative 'library'
-require_relative 'seed'
+require_relative 'helpers/seed'
 require_relative 'helpers/logger'
 
 lib = Library.new

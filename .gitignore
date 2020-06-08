@@ -9,6 +9,8 @@
 /.history
 /.vscode/
 /db/*
+appsetings.json
+
 sorbet
 
 ./r.py

@@ -5,18 +5,20 @@ Dir['./models/*.rb'].sort.each { |file| require file }
 
 # Module contain some extended logic for difference purpose
 module Helper
-  def self.seed_data(num)
-    lib = Library.new
-
-    seed_author lib, num
-    seed_book   lib, num
-    seed_order  lib, num
-    seed_reader lib, num
-
-    lib.save
-  end
-
   class << self
+    def seed_data(num)
+      lib = Library.new
+
+      seed_author lib, num
+      seed_book   lib, num
+      seed_order  lib, num
+      seed_reader lib, num
+
+      lib.save
+    end
+
+    private
+
     def seed_author(lib, num)
       num.times do |i|
         lib.authors << Models::Author.new(i, name: "au_#{i}")

@@ -1,6 +1,7 @@
 # typed: false
 # frozen_string_literal: true
 
+require_relative '../../helpers/configuration'
 # Module contain classes that represent Data Accsess Layer
 module DAL
   # Class represent abstraction for DAL entites
@@ -8,7 +9,7 @@ module DAL
     attr_reader :path
 
     def initialize
-      @path = create_db
+      @path = create_db(Helper.db_path)
     end
 
     def create(*entitys)
@@ -26,21 +27,26 @@ module DAL
     end
 
     def fetch_all
-      YAML.load_file(@path)
+      YAML.load_file(@path) || nil
     end
 
     def fetch_entity(id)
-      result = YAML.load_file(@path)&.select { |i| i&.id == id }
+      if YAML.load_file(@path)
 
-      result&.empty? ? result.first : nil
+        result = YAML.load_file(@path)&.select { |i| i&.id == id }
+
+        result&.first
+      end
     end
 
     private
 
-    def create_db
-      entity_name = self.class.name[/(?<=\W)[A-Z][a-z]+/].downcase
+    def create_db(db_folder)
+      raise ArgumentError, 'Wrong direction' unless Dir.exist? db_folder
 
-      db_path = "./db/#{entity_name}.yaml"
+      entity_name = self.class.name[/(?<=\W)[A-Z][a-z]+/]&.downcase || raise(StandardError, 'Wrong entity name')
+
+      db_path = "#{db_folder}/#{entity_name}.yaml"
 
       File.new(db_path, 'w') unless File.exist? db_path
 
