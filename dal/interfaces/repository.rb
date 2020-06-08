@@ -41,7 +41,9 @@ module DAL
     private
 
     def create_db(db_path)
-      raise ArgumentError, "Wrong direction: #{db_path || 'nil'}" unless Dir.exist?(db_path || '')
+      db_path ||= './db'
+
+      Dir.mkdir db_path unless Dir.exist?(db_path)
 
       entity_name = self.class.name[/(?<=\W)[A-Z][a-z]+/]&.downcase || raise(StandardError, 'Wrong entity name')
 
