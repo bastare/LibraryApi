@@ -12,8 +12,8 @@ module Helper
     end
 
     private
-    
-    #Create default settings, if they doesn`t exist
+
+    # Create default settings, if they doesn`t exist
     def create_settings
       default_opt = { dbPath: './db' }
 
