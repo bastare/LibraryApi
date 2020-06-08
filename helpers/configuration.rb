@@ -2,6 +2,7 @@
 
 require 'json'
 
+# Module contain some extended logic for difference purpose
 module Helper
   class << self
     def db_path

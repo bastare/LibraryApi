@@ -31,12 +31,11 @@ module DAL
     end
 
     def fetch_entity(id)
-      if YAML.load_file(@path)
+      return unless YAML.load_file(@path)
 
-        result = YAML.load_file(@path)&.select { |i| i&.id == id }
+      result = YAML.load_file(@path)&.select { |i| i&.id == id }
 
-        result&.first
-      end
+      result&.first
     end
 
     private
