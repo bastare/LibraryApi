@@ -1,6 +1,7 @@
+# typed: false
 # frozen_string_literal: true
 
-# Module contain classes that represent Data Accsess Later
+# Module contain classes that represent Data Accsess Layer
 module DAL
   # Class represent abstraction for DAL entites
   class Repository

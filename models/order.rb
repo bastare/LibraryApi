@@ -1,9 +1,9 @@
+# typed: true
 # frozen_string_literal: true
 
-require 'yaml'
 require 'date'
 
-require_relative './interfaces/entity'
+require_relative 'interfaces/entity'
 # Module contain classes that mapping with db entites
 module Models
   # Class represent 'order' model
@@ -13,7 +13,7 @@ module Models
     def initialize(id, order)
       super id
 
-      @date = order[:date]     || Time.now.strftime('%d/%m/%Y')
+      @date = order[:date]     || Time.now.to_date
 
       @reader = order[:reader] || raise_required
       @book = order[:book]     || raise_required

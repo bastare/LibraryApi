@@ -1,12 +1,14 @@
+# typed: true
 # frozen_string_literal: true
 
-require 'yaml'
-
-require_relative './interfaces/entity'
+require_relative 'interfaces/entity'
 # Module contain classes that mapping with db entites
 module Models
+  # extend T::Sig
   # Class represent 'reader' model
   class Reader < Entity
+    extend T::Sig
+
     attr_reader :name, :email, :city, :street, :house
 
     def initialize(id, reader)

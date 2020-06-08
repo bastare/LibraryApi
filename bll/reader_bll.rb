@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 require_relative '../dal/unit_of_work'
@@ -12,14 +13,14 @@ module BLL
     def top_readers(limit = 1)
       return if limit <= 0
 
-      statistic = init_readers_stat&.to_a&.slice!(0...limit).to_h
+      statistic = init_readers_stat&.slice!(0...limit).to_h
 
       return unless statistic&.any?
 
       result = []
 
       statistic.each_pair do |key, value|
-        result.push({ reader: @unit.reader.fetch_entity(key), unique_books: value })
+        result << { reader: @unit.reader.fetch_entity(key), unique_books: value }
       end
 
       result
@@ -33,12 +34,12 @@ module BLL
       hash = {}
 
       orders.collect do |i|
-        book_id = i.book.id
+        book_id   = i.book.id
         reader_id = i.reader.id
 
         hash[reader_id] = [] if hash[reader_id].nil?
 
-        hash[reader_id].push book_id
+        hash[reader_id] << book_id
       end
 
       map_result(hash)
@@ -47,9 +48,9 @@ module BLL
     def map_result(hash)
       hash.each_value(&:uniq!)
 
-      hash.each { |key, value| hash[key] = value.length }
+      hash.each { |key, value| hash[key] = value&.length }
 
-      hash.sort_by { |_, v| -v }.to_h
+      hash.sort_by { |_, v| -v }
     end
   end
 end

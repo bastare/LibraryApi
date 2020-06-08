@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 Dir['./bll/*.rb'].sort.each { |file| require file }

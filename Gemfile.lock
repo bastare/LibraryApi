@@ -5,15 +5,10 @@ GEM
     backports (3.17.2)
     bcrypt (3.1.13)
     colorize (0.8.1)
-    concurrent-ruby (1.1.6)
     erubis (2.7.0)
-    faker (2.12.0)
-      i18n (>= 1.6, < 2)
     fasterer (0.8.3)
       colorize (~> 0.7)
       ruby_parser (>= 3.14.1)
-    i18n (1.8.3)
-      concurrent-ruby (~> 1.0)
     mini_portile2 (2.4.0)
     minitest (5.13.0)
     multi_json (1.14.1)
@@ -58,6 +53,10 @@ GEM
       rack-protection (= 2.0.8.1)
       sinatra (= 2.0.8.1)
       tilt (~> 2.0)
+    sorbet (0.5.5737)
+      sorbet-static (= 0.5.5737)
+    sorbet-runtime (0.5.5737)
+    sorbet-static (0.5.5737-universal-darwin-14)
     tilt (2.0.10)
     unicode-display_width (1.7.0)
 
@@ -67,7 +66,6 @@ PLATFORMS
 DEPENDENCIES
   bcrypt
   erubis
-  faker
   fasterer
   minitest
   nokogiri
@@ -77,6 +75,8 @@ DEPENDENCIES
   rubocop
   sinatra
   sinatra-contrib
+  sorbet
+  sorbet-runtime
 
 BUNDLED WITH
    2.1.2

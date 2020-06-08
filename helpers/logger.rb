@@ -1,3 +1,4 @@
+# typed: true
 # frozen_string_literal: true
 
 # Module contain some extended logic for difference purpose

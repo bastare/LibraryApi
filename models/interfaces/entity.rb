@@ -1,5 +1,8 @@
+# typed: true
 # frozen_string_literal: true
 
+require 'sorbet-runtime'
+require 'yaml'
 # Module contain classes that mapping with db entites
 module Models
   # Class represent abstraction for models
@@ -7,7 +10,7 @@ module Models
     attr_reader :id
 
     def initialize(id)
-      @id = id || required
+      @id = id || raise_required
     end
 
     def to_h

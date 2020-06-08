@@ -1,8 +1,9 @@
+# typed: false
 # frozen_string_literal: true
 
-require_relative './library.rb'
-require_relative './seed'
-require_relative './helpers/logger'
+require_relative 'library'
+require_relative 'seed'
+require_relative 'helpers/logger'
 
 lib = Library.new
 
@@ -36,7 +37,7 @@ lib.orders << Models::Order.new(12,
 
 lib.orders << Models::Order.new(14,
                                 reader: lib.unit.reader.fetch_entity(1),
-                                book: lib.unit.book.fetch_entity(12))
+                                book: lib.unit.book.fetch_entity(4))
 
 lib.save
 
