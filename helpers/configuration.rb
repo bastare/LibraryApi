@@ -6,15 +6,18 @@ require 'json'
 module Helper
   class << self
     def db_path
-      create_settings({ dbPath: './db' })
+      create_settings
 
       JSON.parse(File.read('appsetings.json'))['dbPath'] || './db'
     end
 
     private
+    
+    #Create default settings, if they doesn`t exist
+    def create_settings
+      default_opt = { dbPath: './db' }
 
-    def create_settings(opt)
-      File.open('appsetings.json', 'w') { |f| f.write(opt.to_json) } unless File.exist? 'appsetings.json'
+      File.open('appsetings.json', 'w') { |f| f.write(default_opt.to_json) } unless File.exist? 'appsetings.json'
     end
   end
 end

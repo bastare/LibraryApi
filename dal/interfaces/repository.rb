@@ -40,12 +40,12 @@ module DAL
 
     private
 
-    def create_db(db_folder)
-      raise ArgumentError, 'Wrong direction' unless Dir.exist? db_folder
+    def create_db(db_path)
+      raise ArgumentError, "Wrong direction: #{db_path || 'nil'}" unless Dir.exist?(db_path || '')
 
       entity_name = self.class.name[/(?<=\W)[A-Z][a-z]+/]&.downcase || raise(StandardError, 'Wrong entity name')
 
-      db_path = "#{db_folder}/#{entity_name}.yaml"
+      db_path = "#{db_path}/#{entity_name}.yaml"
 
       File.new(db_path, 'w') unless File.exist? db_path
 

@@ -4,7 +4,7 @@
 Dir['./bll/*.rb'].sort.each { |file| require file }
 Dir['./models/*.rb'].sort.each { |file| require file }
 
-# Class
+# Core entity dat contain all models & there behavior
 class Library
   attr_reader   :unit, :reader_bll, :book_bll
   attr_accessor :books, :orders, :readers, :authors
