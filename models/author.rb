@@ -12,7 +12,7 @@ module Models
       super id
 
       @name      = author[:name]      || raise_required
-      @biography = author[:biography] || ''
+      @biography = author[:biography] || '-'
     end
   end
 end

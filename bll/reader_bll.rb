@@ -11,13 +11,13 @@ module BLL
     end
 
     def top_readers(limit = 1)
-      return if limit <= 0
-
-      statistic = init_readers_stat&.slice!(0...limit).to_h
-
-      return unless statistic&.any?
+      raise ArgumentError, 'Limit should be poss num' unless limit&.positive?
 
       result = []
+
+      statistic = init_readers_stat&.slice(0...limit).to_h
+
+      return result unless statistic&.empty?
 
       statistic.each_pair do |key, value|
         result << { reader: @unit.reader.fetch_entity(key), unique_books: value }
@@ -29,7 +29,7 @@ module BLL
     private
 
     def init_readers_stat
-      orders = @unit.order.fetch_all || []
+      orders = @unit.order.fetch_all || return
 
       hash = {}
 

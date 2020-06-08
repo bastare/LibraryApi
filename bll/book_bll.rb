@@ -11,13 +11,13 @@ module BLL
     end
 
     def top_books(limit = 1)
-      return if limit <= 0
-
-      statistic = init_books_stat&.slice!(0...limit).to_h
-
-      return unless statistic&.any?
+      raise ArgumentError, 'Limit should be poss num' unless limit&.positive?
 
       result = []
+
+      statistic = init_books_stat&.slice(0...limit).to_h
+
+      return result unless statistic&.empty?
 
       statistic.each_pair do |key, value|
         result << { book: @unit.book.fetch_entity(key), unique_readers: value }
@@ -27,13 +27,13 @@ module BLL
     end
 
     def readers_interests(quan = 3)
-      return 0 if quan <= 0
+      raise ArgumentError, 'Quantity should be poss num' unless quan&.positive?
 
       result = []
 
       statistic = init_reader_stat(quan)
 
-      return 0 unless statistic&.any?
+      return 0 unless statistic&.empty?
 
       statistic.each_value { |v| result.concat(v) }
 
@@ -43,9 +43,9 @@ module BLL
     private
 
     def init_reader_stat(quan)
-      orders = @unit.order.fetch_all || []
+      orders = @unit.order.fetch_all                        || return
 
-      books = top_books(quan).collect { |i| i[:book]&.id }
+      books = top_books(quan)&.collect { |i| i[:book]&.id } || return
 
       map_reader_stat(books, orders)
     end
@@ -68,7 +68,7 @@ module BLL
     end
 
     def init_books_stat
-      orders = @unit.order.fetch_all || []
+      orders = @unit.order.fetch_all || return
 
       hash = {}
 

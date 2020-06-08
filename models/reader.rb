@@ -4,11 +4,8 @@
 require_relative 'interfaces/entity'
 # Module contain classes that mapping with db entites
 module Models
-  # extend T::Sig
   # Class represent 'reader' model
   class Reader < Entity
-    extend T::Sig
-
     attr_reader :name, :email, :city, :street, :house
 
     def initialize(id, reader)
@@ -16,8 +13,9 @@ module Models
 
       validate_house reader[:house]
 
+      @house = reader[:house]
+
       @name   = reader[:name]   || raise_required
-      @house  = reader[:house]  || raise_required
       @email  = reader[:email]  || raise_required
       @city   = reader[:city]   || raise_required
       @street = reader[:street] || raise_required

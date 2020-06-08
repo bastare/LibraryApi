@@ -8,13 +8,17 @@ module DAL
     attr_reader :path
 
     def initialize
-      @path = db_path
+      @path = create_db
     end
 
     def create(*entitys)
       file = File.new(@path, 'a')
 
       entitys.each do |entity|
+        next if entity.nil?
+
+        entity = entity.to_a unless entity.is_a? Array
+
         file.write(entity.to_yaml.gsub(/^---/, ''))
       end
     ensure
@@ -26,21 +30,21 @@ module DAL
     end
 
     def fetch_entity(id)
-      result = YAML.load_file(@path)&.select { |i| i.id == id }
+      result = YAML.load_file(@path)&.select { |i| i&.id == id }
 
-      result&.any? ? result.first : nil
+      result&.empty? ? result.first : nil
     end
 
     private
 
-    def db_path
+    def create_db
       entity_name = self.class.name[/(?<=\W)[A-Z][a-z]+/].downcase
 
-      local_path = "./db/#{entity_name}.yaml"
+      db_path = "./db/#{entity_name}.yaml"
 
-      File.new(local_path, 'w') unless File.exist? local_path
+      File.new(db_path, 'w') unless File.exist? db_path
 
-      local_path
+      db_path
     end
   end
 end
