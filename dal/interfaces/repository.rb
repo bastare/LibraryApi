@@ -16,7 +16,7 @@ module DAL
       entitys.uniq!(&:id)
 
       file = File.new(@path, 'w')
-      
+
       entitys.each do |entity|
         next if entity.nil?
 
