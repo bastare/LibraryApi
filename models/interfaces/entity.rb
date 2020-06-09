@@ -23,11 +23,5 @@ module Models
 
       hash
     end
-
-    protected
-
-    def raise_required
-      raise ArgumentError, 'Value is required'
-    end
   end
 end

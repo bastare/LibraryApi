@@ -11,9 +11,9 @@ module Models
     def initialize(id, book)
       super id
 
-      @title = book[:title]   || raise_required
+      @title = book[:title]   || raise(ArgumentError, 'Value is required')
 
-      @author = book[:author] || raise_required
+      @author = book[:author] || raise(ArgumentError, 'Value is required')
     end
   end
 end

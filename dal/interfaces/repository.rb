@@ -12,18 +12,20 @@ module DAL
       @path = create_db(Helper.db_path)
     end
 
-    def create(*entitys)
-      file = File.new(@path, 'a')
+    def create(entitys)
+      entitys.uniq!(&:id)
 
+      file = File.new(@path, 'w')
+      
       entitys.each do |entity|
         next if entity.nil?
 
-        entity = entity.to_a unless entity.is_a? Array
+        entity = [entity] unless entity.is_a? Array
 
         file.write(entity.to_yaml.gsub(/^---/, ''))
       end
     ensure
-      file.close
+      file&.close
     end
 
     def fetch_all
@@ -31,9 +33,7 @@ module DAL
     end
 
     def fetch_entity(id)
-      return unless YAML.load_file(@path)
-
-      result = YAML.load_file(@path)&.select { |i| i&.id == id }
+      result = fetch_all&.select { |i| i&.id == id }
 
       result&.first
     end

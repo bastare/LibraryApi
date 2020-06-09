@@ -6,9 +6,7 @@ Dir['./models/*.rb'].sort.each { |file| require file }
 # Module contain some extended logic for difference purpose
 module Helper
   class << self
-    def seed_data(num)
-      lib = Library.new
-
+    def seed_data(num, lib)
       seed_author lib, num
       seed_book   lib, num
       seed_order  lib, num
