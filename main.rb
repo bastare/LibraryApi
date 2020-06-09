@@ -9,7 +9,7 @@ lib = Library.new
 
 # seed
 
-Helper.seed_data 10
+Helper.seed_data 10, lib
 
 author1 = Models::Author.new(11, name: 'first', biography: '')
 author2 = Models::Author.new(12, name: 'second', biography: '')

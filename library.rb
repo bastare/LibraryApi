@@ -15,10 +15,7 @@ class Library
     @reader_bll = BLL::ReaderBLL.new
     @book_bll   = BLL::BookBLL.new
 
-    @books      = []
-    @orders     = []
-    @readers    = []
-    @authors    = []
+    load!
   end
 
   def save
@@ -26,16 +23,14 @@ class Library
     @unit.book.create    @books   unless @books.empty?
     @unit.order.create   @orders  unless @orders.empty?
     @unit.reader.create  @readers unless @readers.empty?
-
-    reset!
   end
 
   private
 
-  def reset!
-    @books.clear
-    @orders.clear
-    @readers.clear
-    @authors.clear
+  def load!
+    @books   = unit.book.fetch_all   || []
+    @orders  = unit.order.fetch_all  || []
+    @readers = unit.reader.fetch_all || []
+    @authors = unit.author.fetch_all || []
   end
 end
