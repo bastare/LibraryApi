@@ -13,6 +13,8 @@ module DAL
     end
 
     def create(entitys)
+      raise ArgumentError, 'Value is nil' if entitys.nil?
+
       entitys.uniq!(&:id)
 
       file = File.new(@path, 'w')
@@ -33,25 +35,27 @@ module DAL
     end
 
     def fetch_entity(id)
-      result = fetch_all&.select { |i| i&.id == id }
-
-      result&.first
+      fetch_all&.find { |i| i&.id == id }
     end
 
     private
 
-    def create_db(db_path)
-      db_path ||= './db'
+    def create_db(db_folder)
+      raise ArgumentError, 'Wrong conf' if db_folder.nil?
 
-      Dir.mkdir db_path unless Dir.exist?(db_path)
-
-      entity_name = self.class.name[/(?<=\W)[A-Z][a-z]+/]&.downcase || raise(StandardError, 'Wrong entity name')
-
-      db_path = "#{db_path}/#{entity_name}.yaml"
+      db_path = form_path(db_folder)
 
       File.new(db_path, 'w') unless File.exist? db_path
 
       db_path
+    end
+
+    def form_path(db_folder)
+      Dir.mkdir db_folder unless Dir.exist?(db_folder)
+
+      entity_name = self.class.name[/(?<=\W)[A-Z][a-z]+/]&.downcase || raise(StandardError, 'Wrong entity name')
+
+      "#{db_folder}/#{entity_name}.yaml"
     end
   end
 end
