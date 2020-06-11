@@ -1,9 +1,8 @@
 # typed: true
 # frozen_string_literal: true
 
-require 'date'
+require_relative '../index'
 
-require_relative 'interfaces/entity'
 # Module contain classes that mapping with db entites
 module Models
   # Class represent 'order' model

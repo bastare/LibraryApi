@@ -3,8 +3,6 @@
 
 require_relative '../index'
 
-require 'yaml'
-
 # Module contain classes that represent Data Accsess Layer
 module DAL
   # Unit of DAL entites
@@ -21,17 +19,9 @@ module DAL
     end
 
     def save(*entitys)
-      # unique_by_id! entitys
-
       entitys&.flatten! || raise(ArgumentNilError, 'Value is nil')
 
       File.open(@path, 'w') { |f| f.write(entitys.to_yaml) }
-    end
-
-    private
-
-    def unique_by_id!(*entitys)
-      entitys.dig(0).each { |array| array.uniq!(&:id) }
     end
   end
 end

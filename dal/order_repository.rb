@@ -1,7 +1,8 @@
 # typed: true
 # frozen_string_literal: true
 
-require_relative './interfaces/repository'
+require_relative '../index'
+
 # Module contain classes that represent Data Accsess Layer
 module DAL
   # Class 'order' contain api for communnication with data storage

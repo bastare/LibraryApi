@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'json'
+require_relative '../index'
 
 # Module contain some extended logic for difference purpose
 module Helper

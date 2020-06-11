@@ -1,7 +1,7 @@
 # typed: false
 # frozen_string_literal: true
 
-require_relative './index'
+require_relative 'index'
 
 lib = Library.new
 

@@ -1,7 +1,7 @@
 # typed: true
 # frozen_string_literal: true
 
-require_relative './index'
+require_relative 'index'
 
 # Core entity dat contain all models & there behavior
 class Library

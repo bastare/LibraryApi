@@ -7,3 +7,5 @@ git_source(:github) { |repo_name| "https://github.com/#{repo_name}" }
 gem 'fasterer'
 
 gem 'rubocop'
+
+gem 'require_all'

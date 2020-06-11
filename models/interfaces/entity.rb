@@ -1,8 +1,6 @@
 # typed: true
 # frozen_string_literal: true
 
-require 'yaml'
-
 require_relative 'value_object'
 
 # Module contain classes that mapping with db entites

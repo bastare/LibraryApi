@@ -11,7 +11,7 @@ module DAL
     def initialize(path)
       @path = path || raise(ArgumentNilError, 'No path given')
 
-      @model = Models.fetch_class self.class.name[/(?<=::)[A-Za-z]+(?=DAL)/]
+      @model = model_name
     end
 
     def fetch_all
@@ -22,6 +22,12 @@ module DAL
 
     def fetch_entity(id)
       fetch_all&.find { |i| i&.id == id }
+    end
+
+    private
+
+    def model_name
+      Models.fetch_class self.class.name[/(?<=::)[A-Za-z]+(?=DAL)/] || raise(ArgumentNilError, 'Model doesn`t exist')
     end
   end
 end

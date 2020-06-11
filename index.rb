@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
-Dir['./bll/*.rb'].sort.each { |file| require file }
-require_relative 'bll/modules/bll'
+require 'json'
+require 'yaml'
+require 'date'
+require 'require_all'
 
-Dir['./dal/*.rb'].sort.each { |file| require file }
-require_relative 'dal/modules/dal'
-
-Dir['./models/*.rb'].sort.each { |file| require file }
-require_relative 'models/modules/models'
-
-Dir['./helpers/*.rb'].sort.each { |file| require file }
+require_all 'dal/modules',    'models/modules', 'bll/modules'
+require_all 'dal/interfaces', 'models/interfaces'
+require_all 'dal', 'bll', 'models', 'helpers'
 
 require_relative 'library'
