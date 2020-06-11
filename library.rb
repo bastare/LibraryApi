@@ -1,8 +1,7 @@
 # typed: true
 # frozen_string_literal: true
 
-Dir['./bll/*.rb'].sort.each { |file| require file }
-Dir['./models/*.rb'].sort.each { |file| require file }
+require_relative './index'
 
 # Core entity dat contain all models & there behavior
 class Library
@@ -19,10 +18,7 @@ class Library
   end
 
   def save
-    @unit.author.create  @authors unless @authors.empty?
-    @unit.book.create    @books   unless @books.empty?
-    @unit.order.create   @orders  unless @orders.empty?
-    @unit.reader.create  @readers unless @readers.empty?
+    @unit.save @authors, @books, @orders, @readers
   end
 
   private

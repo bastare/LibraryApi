@@ -1,7 +1,7 @@
 # typed: false
 # frozen_string_literal: true
 
-Dir['./models/*.rb'].sort.each { |file| require file }
+require_relative '../index'
 
 # Module contain some extended logic for difference purpose
 module Helper

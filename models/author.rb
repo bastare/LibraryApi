@@ -11,7 +11,7 @@ module Models
     def initialize(id, author)
       super id
 
-      @name      = author[:name]      || raise(ArgumentError, 'Value is required')
+      @name      = author[:name]      || raise(FieldRequiredError, 'Field is required')
       @biography = author[:biography] || '-'
     end
   end

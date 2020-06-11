@@ -6,8 +6,8 @@ require_relative './interfaces/repository'
 module DAL
   # Class 'author' contain api for communnication with data storage
   class AuthorDAL < Repository
-    def initialize
-      super
+    def initialize(path)
+      super path
     end
   end
 end

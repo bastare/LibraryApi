@@ -1,7 +1,7 @@
 # typed: true
 # frozen_string_literal: true
 
-require_relative '../dal/unit_of_work'
+require_relative '../index'
 # Module contain entites that implements BLL
 module BLL
   # Class contain business logic for 'reader'
@@ -11,11 +11,11 @@ module BLL
     end
 
     def top_readers(limit = 1)
-      raise ArgumentError, 'Limit should be poss num' unless limit&.positive?
+      raise ValidationError, 'Limit should be poss num' unless limit&.positive?
 
       result = []
 
-      statistic = init_readers_stat&.slice(0...limit).to_h
+      statistic = init_readers_stat(limit)
 
       return result unless statistic&.any?
 
@@ -28,27 +28,23 @@ module BLL
 
     private
 
-    def init_readers_stat
+    def init_readers_stat(limit)
       orders = @unit.order.fetch_all || return
 
       hash = Hash.new { |k, v| k[v] = [] }
 
-      orders.collect do |i|
-        book_id   = i.book.id
-        reader_id = i.reader.id
+      orders.each do |order|
+        book_id   = order.book.id
+        reader_id = order.reader.id
 
         hash[reader_id] << book_id
       end
 
-      map_result(hash)
+      map_result!(hash, limit)
     end
 
-    def map_result(hash)
-      hash.each_value(&:uniq!)
-
-      hash.each { |k, v| hash[k] = v&.length || 0 }
-
-      hash.sort_by { |_, v| -v }
+    def map_result!(hash, limit)
+      hash.each_value(&:uniq!).max_by(limit) { |_, v| v&.length || 0 }.to_h
     end
   end
 end

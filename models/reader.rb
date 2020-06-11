@@ -11,19 +11,12 @@ module Models
     def initialize(id, reader)
       super id
 
-      validate_house reader[:house]
+      @house = Validation.validate_house reader[:house]
 
-      @house  = reader[:house]
-      @name   = reader[:name]   || raise(ArgumentError, 'Value is required')
-      @email  = reader[:email]  || raise(ArgumentError, 'Value is required')
-      @city   = reader[:city]   || raise(ArgumentError, 'Value is required')
-      @street = reader[:street] || raise(ArgumentError, 'Value is required')
-    end
-
-    private
-
-    def validate_house(house)
-      raise ArgumentError, 'Value is nil or negative number' unless house&.positive? || house&.zero?
+      @name   = reader[:name]   || raise(FieldRequiredError, 'Field is required')
+      @email  = reader[:email]  || raise(FieldRequiredError, 'Field is required')
+      @city   = reader[:city]   || raise(FieldRequiredError, 'Field is required')
+      @street = reader[:street] || raise(FieldRequiredError, 'Field is required')
     end
   end
 end

@@ -15,8 +15,8 @@ module Models
 
       @date = order[:date]     || Time.now.to_date
 
-      @reader = order[:reader] || raise(ArgumentError, 'Value is required')
-      @book = order[:book]     || raise(ArgumentError, 'Value is required')
+      @reader = order[:reader] || raise(FieldRequiredError, 'Field is required')
+      @book = order[:book]     || raise(FieldRequiredError, 'Field is required')
     end
   end
 end

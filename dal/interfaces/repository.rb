@@ -1,61 +1,27 @@
-# typed: false
 # frozen_string_literal: true
 
-require_relative '../../helpers/configuration'
+require_relative '../../index'
+
 # Module contain classes that represent Data Accsess Layer
 module DAL
   # Class represent abstraction for DAL entites
   class Repository
-    attr_reader :path
+    attr_reader :path, :model
 
-    def initialize
-      @path = create_db(Helper.db_path)
-    end
+    def initialize(path)
+      @path = path || raise(ArgumentNilError, 'No path given')
 
-    def create(entitys)
-      raise ArgumentError, 'Value is nil' if entitys.nil?
-
-      entitys.uniq!(&:id)
-
-      file = File.new(@path, 'w')
-
-      entitys.each do |entity|
-        next if entity.nil?
-
-        entity = [entity] unless entity.is_a? Array
-
-        file.write(entity.to_yaml.gsub(/^---/, ''))
-      end
-    ensure
-      file&.close
+      @model = Models.fetch_class self.class.name[/(?<=::)[A-Za-z]+(?=DAL)/]
     end
 
     def fetch_all
-      YAML.load_file(@path) || nil
+      data = YAML.load_file(@path) || return
+
+      data.find_all { |entity| entity&.kind_of? @model }
     end
 
     def fetch_entity(id)
       fetch_all&.find { |i| i&.id == id }
-    end
-
-    private
-
-    def create_db(db_folder)
-      raise ArgumentError, 'Wrong conf' if db_folder.nil?
-
-      db_path = form_path(db_folder)
-
-      File.new(db_path, 'w') unless File.exist? db_path
-
-      db_path
-    end
-
-    def form_path(db_folder)
-      Dir.mkdir db_folder unless Dir.exist?(db_folder)
-
-      entity_name = self.class.name[/(?<=\W)[A-Z][a-z]+/]&.downcase || raise(StandardError, 'Wrong entity name')
-
-      "#{db_folder}/#{entity_name}.yaml"
     end
   end
 end
