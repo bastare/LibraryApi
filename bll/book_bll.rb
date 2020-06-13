@@ -16,12 +16,13 @@ module BLL
 
       result = []
 
-      statistic = init_books_stat(limit)
+      orders = @unit.order.fetch_all || return
 
-      return result unless statistic&.any?
-
-      statistic.each_pair do |k, v|
-        result << { book: @unit.book.fetch_entity(k), unique_readers: v }
+      init_books_statistic(limit, orders).each_pair do |book_id, unique_readers_id|
+        result << {
+          book: orders.find { |order| order.book if order.book.id == book_id },
+          unique_readers_id: unique_readers_id
+        }
       end
 
       result
@@ -30,14 +31,12 @@ module BLL
     def readers_interests(quan = 3)
       raise ValidationError, 'Quantity cannot be negative' unless quan&.positive?
 
-      top_books(quan)&.map { |books_stat| books_stat[:unique_readers] }&.flatten&.uniq&.length || 0
+      top_books(quan)&.map { |books_statistic| books_statistic[:unique_readers_id] }&.flatten&.uniq&.length || 0
     end
 
     private
 
-    def init_books_stat(limit)
-      orders = @unit.order.fetch_all || return
-
+    def init_books_statistic(limit, orders)
       hash = orders.each_with_object(Hash.new { |k, v| k[v] = [] }) do |order, hash_result|
         book_id   = order.book.id
         reader_id = order.reader.id
@@ -45,11 +44,7 @@ module BLL
         hash_result[book_id] << reader_id
       end
 
-      map_books_stat!(hash, limit)
-    end
-
-    def map_books_stat!(hash, limit)
-      hash.each_value(&:uniq!).max_by(limit) { |_, v| v&.length || 0 }.to_h
+      hash.each_value(&:uniq!).max_by(limit) { |_, unique_readers_id| unique_readers_id&.length || 0 }.to_h
     end
   end
 end

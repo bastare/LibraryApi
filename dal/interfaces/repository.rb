@@ -10,14 +10,12 @@ module DAL
 
     def initialize(path)
       @path = path || raise(ArgumentNilError, 'No path given')
-
-      @model = model_name
     end
 
     def fetch_all
       data = YAML.load_file(@path) || return
 
-      data.find_all { |entity| entity&.kind_of? @model }
+      data.find_all { |entity| entity&.kind_of? model_type }
     end
 
     def fetch_entity(id)
@@ -26,7 +24,7 @@ module DAL
 
     private
 
-    def model_name
+    def model_type
       Models.fetch_class self.class.name[/(?<=::)[A-Za-z]+(?=DAL)/] || raise(ArgumentNilError, 'Model doesn`t exist')
     end
   end

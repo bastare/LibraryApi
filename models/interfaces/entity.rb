@@ -12,14 +12,7 @@ module Models
     attr_reader :id
 
     def initialize(id)
-      @id = id || raise_required
-    end
-
-    def to_h
-      hash = {}
-      instance_variables.each { |attribute| hash[attribute] = instance_variable_get(attribute) }
-
-      hash
+      @id = id || raise(FieldRequiredError, 'Field is required')
     end
   end
 end

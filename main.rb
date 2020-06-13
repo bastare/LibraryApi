@@ -54,15 +54,15 @@ lib.save
 
 # task1
 
-result1 = lib.reader_bll.top_readers 5
+result1 = lib.reader_bll.top_readers 1000
 
-Helper::Logger.out(result1, :reader, :unique_books, 'Top reader(-s)') if result1
+Helper::Logger.out(result1, :reader, :unique_books_id, 'Top reader(-s)') if result1
 
 # task2
 
-result2 = lib.book_bll.top_books 5
+result2 = lib.book_bll.top_books 100
 
-Helper::Logger.out(result2, :book, :unique_readers, 'Top book(-s)') if result2
+Helper::Logger.out(result2, :book, :unique_readers_id, 'Top book(-s)') if result2
 
 # task3
 

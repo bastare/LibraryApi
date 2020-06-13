@@ -14,6 +14,11 @@ class Library
     @reader_bll = BLL::ReaderBLL.new
     @book_bll   = BLL::BookBLL.new
 
+    @books      = []
+    @orders     = []
+    @readers    = []
+    @authors    = []
+
     load!
   end
 
