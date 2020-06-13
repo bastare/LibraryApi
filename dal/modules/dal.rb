@@ -28,4 +28,7 @@ module DAL
 
   class ArgumentNilError < ArgumentError
   end
+
+  class IndexDuplicateError < ArgumentError
+  end
 end

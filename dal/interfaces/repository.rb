@@ -15,7 +15,7 @@ module DAL
     def fetch_all
       data = YAML.load_file(@path) || return
 
-      data.find_all { |entity| entity&.kind_of? model_type }
+      data.find_all { |entity| entity&.instance_of? model_type }
     end
 
     def fetch_entity(id)

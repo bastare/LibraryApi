@@ -18,10 +18,24 @@ module DAL
       @reader = ReaderDAL.new @path
     end
 
-    def save(*entitys)
-      entitys&.flatten! || raise(ArgumentNilError, 'Value is nil')
+    def save(*entitys_lists)
+      index_validation entitys_lists
 
-      File.open(@path, 'w') { |f| f.write(entitys.to_yaml) }
+      entitys_lists.flatten!
+
+      File.open(@path, 'w') { |f| f.write(entitys_lists.to_yaml) }
+    end
+
+    private
+
+    def index_validation(entitys_lists)
+      raise ArgumentNilError, 'Value is nil' if entitys.nil?
+
+      entitys_lists.each do |entitys|
+        unless entitys.uniq(&:id).length == entitys.length
+          raise(IndexDuplicateError, "Collection of #{entitys.first.class} contain entity, with duplicate index")
+        end
+      end
     end
   end
 end
