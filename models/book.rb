@@ -9,12 +9,12 @@ module Models
   class Book < Entity
     attr_reader :author, :title, :order
 
-    def initialize(id, book)
+    def initialize(id, **book)
       super id
 
-      @title = book[:title]   || raise(FieldRequiredError, 'Field is required')
+      @title = book[:title]   || raise(Error::FieldRequiredError, 'Field is required')
 
-      @author = book[:author] || raise(FieldRequiredError, 'Field is required')
+      @author = book[:author] || raise(Error::FieldRequiredError, 'Field is required')
     end
   end
 end

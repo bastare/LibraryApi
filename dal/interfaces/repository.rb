@@ -9,7 +9,7 @@ module DAL
     attr_reader :path, :model
 
     def initialize(path)
-      @path = path || raise(ArgumentNilError, 'No path given')
+      @path = path || raise(Error::ArgumentNilError, 'No path given')
     end
 
     def fetch_all
@@ -25,7 +25,7 @@ module DAL
     private
 
     def model_type
-      Models.fetch_class self.class.name[/(?<=::)[A-Za-z]+(?=DAL)/] || raise(ArgumentNilError, 'Model doesn`t exist')
+      Models.fetch_class self.class.name[/(?<=::)[A-Za-z]+(?=DAL)/] || raise(Error::ArgumentNilError, 'No `model`')
     end
   end
 end

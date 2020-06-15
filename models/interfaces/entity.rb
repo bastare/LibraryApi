@@ -7,12 +7,13 @@ require_relative 'value_object'
 module Models
   # Class represent abstraction for models
   class Entity
+    include Validatable
     prepend ValueObject
 
     attr_reader :id
 
     def initialize(id)
-      @id = id || raise(FieldRequiredError, 'Field is required')
+      @id = id || raise(Error::FieldRequiredError, 'Field is required')
     end
   end
 end

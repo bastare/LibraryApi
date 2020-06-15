@@ -12,7 +12,7 @@ module BLL
     end
 
     def top_readers(limit = 1)
-      raise ValidationError, 'Limit cannot be negative' unless limit&.positive?
+      raise Error::ValidationError, 'Limit cannot be negative' unless limit&.positive?
 
       result = []
 

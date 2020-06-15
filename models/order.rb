@@ -9,13 +9,13 @@ module Models
   class Order < Entity
     attr_reader :date, :reader, :book
 
-    def initialize(id, order)
+    def initialize(id, **order)
       super id
 
       @date = order[:date]     || Time.now.to_date
 
-      @reader = order[:reader] || raise(FieldRequiredError, 'Field is required')
-      @book = order[:book]     || raise(FieldRequiredError, 'Field is required')
+      @reader = order[:reader] || raise(Error::FieldRequiredError, 'Field is required')
+      @book = order[:book]     || raise(Error::FieldRequiredError, 'Field is required')
     end
   end
 end

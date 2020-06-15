@@ -12,7 +12,7 @@ module BLL
     end
 
     def top_books(limit = 1)
-      raise ValidationError, 'Limit cannot be negative' unless limit&.positive?
+      raise Error::ValidationError, 'Limit cannot be negative' unless limit&.positive?
 
       result = []
 
@@ -29,7 +29,7 @@ module BLL
     end
 
     def readers_interests(quan = 3)
-      raise ValidationError, 'Quantity cannot be negative' unless quan&.positive?
+      raise Error::ValidationError, 'Quantity cannot be negative' unless quan&.positive?
 
       top_books(quan)&.map { |books_statistic| books_statistic[:unique_readers_id] }&.flatten&.uniq&.length || 0
     end

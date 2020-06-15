@@ -2,6 +2,9 @@
 
 # Module contain entites that implements BLL
 module BLL
-  class ValidationError < ArgumentError
+  # Module contain custom error classes
+  module Error
+    class ValidationError < ArgumentError
+    end
   end
 end

@@ -29,11 +29,11 @@ module DAL
     private
 
     def index_validation(entitys_lists)
-      raise ArgumentNilError, 'Value is nil' if entitys.nil?
+      raise Error::ArgumentNilError, 'Value is nil' if entitys_lists.nil?
 
       entitys_lists.each do |entitys|
         unless entitys.uniq(&:id).length == entitys.length
-          raise(IndexDuplicateError, "Collection of #{entitys.first.class} contain entity, with duplicate index")
+          raise(Error::IndexDuplicateError, "Collection of #{entitys.first.class} contain entity, with duplicate index")
         end
       end
     end

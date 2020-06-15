@@ -9,15 +9,25 @@ module Models
   class Reader < Entity
     attr_reader :name, :email, :city, :street, :house
 
-    def initialize(id, reader)
+    def initialize(id, **reader)
       super id
 
-      @house = Validation.validate_house reader[:house]
+      validations reader
 
-      @name   = reader[:name]   || raise(FieldRequiredError, 'Field is required')
-      @email  = reader[:email]  || raise(FieldRequiredError, 'Field is required')
-      @city   = reader[:city]   || raise(FieldRequiredError, 'Field is required')
-      @street = reader[:street] || raise(FieldRequiredError, 'Field is required')
+      @house = reader[:house]
+
+      @name   = reader[:name]   || raise(Error::FieldRequiredError, 'Field is required')
+      @email  = reader[:email]  || raise(Error::FieldRequiredError, 'Field is required')
+      @city   = reader[:city]   || raise(Error::FieldRequiredError, 'Field is required')
+      @street = reader[:street] || raise(Error::FieldRequiredError, 'Field is required')
+    end
+
+    private
+
+    def validations(reader)
+      validation(reader[:house], ->(house) { house&.positive? || house&.zero? }, required: true) do
+        raise Error::ValidationError, 'Value is nil or negative number'
+      end
     end
   end
 end

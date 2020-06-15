@@ -9,10 +9,10 @@ module Models
   class Author < Entity
     attr_reader :name, :biography
 
-    def initialize(id, author)
+    def initialize(id, **author)
       super id
 
-      @name      = author[:name]      || raise(FieldRequiredError, 'Field is required')
+      @name      = author[:name]      || raise(Error::FieldRequiredError, 'Field is required')
       @biography = author[:biography] || '-'
     end
   end

@@ -9,17 +9,36 @@ module Models
   end
 
   # Module contain validation behavior
-  module Validation
-    def self.validate_house(house)
-      raise ValidationError, 'Value is nil or negative number' unless house&.positive? || house&.zero?
+  module Validatable
+    protected
 
-      house
+    def validation(target, predicate, required: false)
+      required_validation(target, required)
+
+      unless predicate&.call(target)
+        block_given? ? yield : raise(Error::ValidationError, 'Validation failed')
+      end
+    end
+
+    private
+
+    def required_validation(target, required)
+      raise(Error::FieldRequiredError, 'Field is required') if required && target.nil?
     end
   end
 
-  class FieldRequiredError < ArgumentError
-  end
+  # Module contain custom error classes
+  module Error
+    class WrongTypeError < ArgumentError
+    end
 
-  class ValidationError < ArgumentError
+    class ArgumentNilError < ArgumentError
+    end
+
+    class FieldRequiredError < ArgumentError
+    end
+
+    class ValidationError < ArgumentError
+    end
   end
 end

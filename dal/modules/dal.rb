@@ -8,7 +8,7 @@ module DAL
 
   class << self
     def create_db(db_folder)
-      raise ArgumentNilError, 'Wrong conf' if db_folder.nil?
+      raise Error::ArgumentNilError, 'Wrong conf' if db_folder.nil?
 
       db_path = form_path(db_folder)
 
@@ -26,9 +26,12 @@ module DAL
     end
   end
 
-  class ArgumentNilError < ArgumentError
-  end
+  # Module contain custom error classes
+  module Error
+    class ArgumentNilError < ArgumentError
+    end
 
-  class IndexDuplicateError < ArgumentError
+    class IndexDuplicateError < ArgumentError
+    end
   end
 end
