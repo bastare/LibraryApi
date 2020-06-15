@@ -14,12 +14,11 @@ module Models
 
       validations reader
 
-      @house = reader[:house]
-
-      @name   = reader[:name]   || raise(Error::FieldRequiredError, 'Field is required')
-      @email  = reader[:email]  || raise(Error::FieldRequiredError, 'Field is required')
-      @city   = reader[:city]   || raise(Error::FieldRequiredError, 'Field is required')
-      @street = reader[:street] || raise(Error::FieldRequiredError, 'Field is required')
+      @house  = reader[:house]
+      @name   = reader[:name]
+      @email  = reader[:email]
+      @city   = reader[:city]
+      @street = reader[:street]
     end
 
     private
@@ -28,6 +27,11 @@ module Models
       validation(reader[:house], ->(house) { house&.positive? || house&.zero? }, required: true) do
         raise Error::ValidationError, 'Value is nil or negative number'
       end
+
+      validation(reader[:name],   required: true)
+      validation(reader[:email],  required: true)
+      validation(reader[:city],   required: true)
+      validation(reader[:street], required: true)
     end
   end
 end

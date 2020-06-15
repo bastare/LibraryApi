@@ -12,8 +12,16 @@ module Models
     def initialize(id, **author)
       super id
 
-      @name      = author[:name]      || raise(Error::FieldRequiredError, 'Field is required')
+      validations author
+
+      @name      = author[:name]
       @biography = author[:biography] || '-'
+    end
+
+    private
+
+    def validations(author)
+      validation(author[:name], required: true)
     end
   end
 end

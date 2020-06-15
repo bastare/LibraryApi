@@ -12,9 +12,18 @@ module Models
     def initialize(id, **book)
       super id
 
-      @title = book[:title]   || raise(Error::FieldRequiredError, 'Field is required')
+      validations book
 
-      @author = book[:author] || raise(Error::FieldRequiredError, 'Field is required')
+      @title = book[:title]
+
+      @author = book[:author]
+    end
+
+    private
+
+    def validations(book)
+      validation(book[:title],  required: true)
+      validation(book[:author], required: true)
     end
   end
 end

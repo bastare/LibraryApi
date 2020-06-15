@@ -12,10 +12,19 @@ module Models
     def initialize(id, **order)
       super id
 
-      @date = order[:date]     || Time.now.to_date
+      validations order
 
-      @reader = order[:reader] || raise(Error::FieldRequiredError, 'Field is required')
-      @book = order[:book]     || raise(Error::FieldRequiredError, 'Field is required')
+      @date = order[:date] || Time.now.to_date
+
+      @reader = order[:reader]
+      @book   = order[:book]
+    end
+
+    private
+
+    def validations(order)
+      validation(order[:reader], required: true)
+      validation(order[:book],   required: true)
     end
   end
 end

@@ -12,10 +12,12 @@ module Models
   module Validatable
     protected
 
-    def validation(target, predicate, required: false)
+    def validation(target, predicate = nil, required: false)
       required_validation(target, required)
 
-      unless predicate&.call(target)
+      validation_result = predicate&.call(target) || return
+
+      unless validation_result
         block_given? ? yield : raise(Error::ValidationError, 'Validation failed')
       end
     end
