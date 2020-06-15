@@ -13,7 +13,9 @@ module Models
     attr_reader :id
 
     def initialize(id)
-      @id = id || raise(Error::FieldRequiredError, 'Field is required')
+      validation(id, required: true)
+
+      @id = id
     end
   end
 end
