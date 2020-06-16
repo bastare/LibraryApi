@@ -19,7 +19,7 @@ module DAL
     end
 
     def fetch_entity(id)
-      fetch_all&.find { |i| i&.id == id }
+      fetch_all&.find { |i| i&.id == id } || return
     end
 
     private

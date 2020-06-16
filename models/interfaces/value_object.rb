@@ -9,8 +9,8 @@ module Models
     def equal?(other)
       return false unless instance_of? other&.class
 
-      instance_variables.each do |attr|
-        return false unless instance(attr)&.equal? other&.instance(attr)
+      instance_variables.each do |variable|
+        return false unless instance(variable)&.equal? other&.instance(variable)
       end
 
       true

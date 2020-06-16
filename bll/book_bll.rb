@@ -14,18 +14,14 @@ module BLL
     def top_books(limit = 1)
       raise Error::ValidationError, 'Limit cannot be negative' unless limit&.positive?
 
-      result = []
-
       orders = @unit.order.fetch_all || return
 
-      init_books_statistic(limit, orders).each_pair do |book_id, unique_readers_id|
+      init_books_statistic(limit, orders).each_with_object([]) do |(book_id, unique_readers_id), result|
         result << {
           book: orders.find { |order| order.book if order.book.id == book_id },
           unique_readers_id: unique_readers_id
         }
       end
-
-      result
     end
 
     def readers_interests(quan = 3)

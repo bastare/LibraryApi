@@ -7,7 +7,7 @@ lib = Library.new
 
 # seed
 unless lib.unit.author.fetch_all&.any?
-  Helper.seed_data 10, lib
+  Helper::DataSeed.seed_data 10, lib
 
   author1 = Models::Author.new(11, name: 'first', biography: '')
   author2 = Models::Author.new(12, name: 'second', biography: '')
@@ -54,13 +54,13 @@ lib.save
 
 # task1
 
-result1 = lib.reader_bll.top_readers 1000
+result1 = lib.reader_bll.top_readers 5
 
 Helper::Logger.out(result1, :reader, :unique_books_id, 'Top reader(-s)') if result1
 
 # task2
 
-result2 = lib.book_bll.top_books 100
+result2 = lib.book_bll.top_books 5
 
 Helper::Logger.out(result2, :book, :unique_readers_id, 'Top book(-s)') if result2
 

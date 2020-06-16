@@ -25,13 +25,4 @@ module DAL
       "#{db_folder}/#{DB_NAME}.yaml"
     end
   end
-
-  # Module contain custom error classes
-  module Error
-    class ArgumentNilError < ArgumentError
-    end
-
-    class IndexDuplicateError < ArgumentError
-    end
-  end
 end

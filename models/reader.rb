@@ -25,7 +25,7 @@ module Models
 
     def validations(reader)
       validation(reader[:house], ->(house) { house&.positive? || house&.zero? }, required: true) do
-        raise Error::ValidationError, 'Value is nil or negative number'
+        raise Error::ValidationError, '`House` veriable is nil or negative number'
       end
 
       validation(reader[:name],   required: true)
