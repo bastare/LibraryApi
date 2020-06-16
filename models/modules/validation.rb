@@ -6,8 +6,8 @@ module Models
   module Validatable
     protected
 
-    def validation(target, predicate = nil, required: false, &block)
-      required_validation(target)                     if required
+    def validation(target, predicate = nil, presence: false, &block)
+      required_validation(target)                     if presence
       condition_validation(target, predicate, &block) unless predicate.nil?
     end
 

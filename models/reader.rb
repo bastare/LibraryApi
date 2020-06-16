@@ -24,14 +24,14 @@ module Models
     private
 
     def validations(reader)
-      validation(reader[:house], ->(house) { house&.positive? || house&.zero? }, required: true) do
+      validation(reader[:house], ->(house) { house&.positive? || house&.zero? }, presence: true) do
         raise Error::ValidationError, '`House` veriable is nil or negative number'
       end
 
-      validation(reader[:name],   required: true)
-      validation(reader[:email],  required: true)
-      validation(reader[:city],   required: true)
-      validation(reader[:street], required: true)
+      validation(reader[:name],   presence: true)
+      validation(reader[:email],  presence: true)
+      validation(reader[:city],   presence: true)
+      validation(reader[:street], presence: true)
     end
   end
 end

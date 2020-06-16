@@ -22,8 +22,8 @@ module Models
     private
 
     def validations(book)
-      validation(book[:title],  required: true)
-      validation(book[:author], required: true)
+      validation(book[:title],  presence: true)
+      validation(book[:author], presence: true)
     end
   end
 end

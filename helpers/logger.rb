@@ -5,10 +5,37 @@
 module Helper
   # Module contain methods for console outputs
   module Logger
-    def self.out(input, key1, key2, tittle)
-      p tittle
+    # Class represent implementation of `Decorator` pattern, to give extended logic for Library, to log BLL results
+    class LibraryLogger
+      def initialize(library)
+        @library = library || raise(ArgumentError, 'Value is nil')
+      end
 
-      input.each { |res| p "#{res[key1]&.id} -> #{res[key2]}" }
+      def print_top_books(limit)
+        p 'Top book(-s)'
+
+        result = @library.order_bll.top_books(limit) || return
+
+        result.each do |transfer|
+          p "#{transfer[:book]&.id} -> #{transfer[:unique_readers].map(&:id)}"
+        end
+      end
+
+      def print_top_readers(limit)
+        p 'Top reader(-s)'
+
+        result = @library.order_bll.top_readers(limit) || return
+
+        result.each do |transfer|
+          p "#{transfer[:reader]&.id} -> #{transfer[:unique_books].map(&:id)}"
+        end
+      end
+
+      def print_number_of_top_readers(quan)
+        result = @library.order_bll.readers_interests(quan) || return
+
+        p "Number of unique readers dat order top books: #{result}"
+      end
     end
   end
 end

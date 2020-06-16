@@ -13,7 +13,7 @@ module Models
     attr_reader :id
 
     def initialize(id)
-      validation(id, required: true)
+      validation(id, presence: true)
 
       @id = id
     end

@@ -21,7 +21,7 @@ module Models
     private
 
     def validations(author)
-      validation(author[:name], required: true)
+      validation(author[:name], presence: true)
     end
   end
 end

@@ -23,8 +23,8 @@ module Models
     private
 
     def validations(order)
-      validation(order[:reader], required: true)
-      validation(order[:book],   required: true)
+      validation(order[:reader], presence: true)
+      validation(order[:book],   presence: true)
     end
   end
 end
