@@ -4,10 +4,8 @@
 module DAL
   # Module contain custom error classes
   module Error
-    class ArgumentNilError < ArgumentError
-    end
+    class ArgumentNilError < ArgumentError; end
 
-    class IndexDuplicateError < ArgumentError
-    end
+    class IndexDuplicateError < ArgumentError; end
   end
 end

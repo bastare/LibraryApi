@@ -4,7 +4,6 @@
 module BLL
   # Module contain custom error classes
   module Error
-    class ValidationError < ArgumentError
-    end
+    class ValidationError < ArgumentError; end
   end
 end

@@ -4,13 +4,10 @@
 module Models
   # Module contain custom error classes
   module Error
-    class ArgumentNilError < ArgumentError
-    end
+    class ArgumentNilError < ArgumentError; end
 
-    class FieldRequiredError < ArgumentError
-    end
+    class FieldRequiredError < ArgumentError; end
 
-    class ValidationError < ArgumentError
-    end
+    class ValidationError < ArgumentError; end
   end
 end

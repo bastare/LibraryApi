@@ -37,6 +37,10 @@ unless library.unit.author.fetch_all&.any?
                                       reader: library.unit.reader.fetch_entity(9),
                                       book: library.unit.book.fetch_entity(4))
 
+  library.orders << Models::Order.new(16,
+                                      reader: library.unit.reader.fetch_entity(9),
+                                      book: library.unit.book.fetch_entity(3))
+
   library.orders << Models::Order.new(18,
                                       reader: library.unit.reader.fetch_entity(9),
                                       book: library.unit.book.fetch_entity(3))

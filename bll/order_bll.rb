@@ -18,10 +18,10 @@ module BLL
 
       target = { target: :reader, subject: :book }
 
-      initialize_statistic(limit, orders, **target).each_with_object([]) do |(reader_id, unique_books_id), result|
+      initialize_statistic(limit, orders, **target).each_with_object([]) do |(reader_id, unique_books), result|
         result << {
-          reader: orders.find { |order| order.reader if order.reader.id == reader_id },
-          unique_books: fetch_subjects(orders, unique_books_id, **target)
+          reader: orders.find { |order| order.reader.id == reader_id }.reader,
+          unique_books: unique_books
         }
       end
     end
@@ -33,10 +33,10 @@ module BLL
 
       target = { target: :book, subject: :reader }
 
-      initialize_statistic(limit, orders, **target).each_with_object([]) do |(book_id, unique_readers_id), result|
+      initialize_statistic(limit, orders, **target).each_with_object([]) do |(book_id, unique_readers), result|
         result << {
-          book: orders.find { |order| order.book if order.book.id == book_id },
-          unique_readers: fetch_subjects(orders, unique_readers_id, **target)
+          book: orders.find { |order| order.book.id == book_id }.book,
+          unique_readers: unique_readers
         }
       end
     end
@@ -49,21 +49,15 @@ module BLL
 
     private
 
-    def fetch_subjects(orders, subjects_id, **target)
-      subjects_id.map do |subject_id|
-        orders.find { |order| order.send(target[:subject]) if order.send(target[:subject]).id == subject_id }
-      end
-    end
-
     def initialize_statistic(limit, orders, **target)
-      hash = orders.each_with_object(Hash.new { |k, v| k[v] = Set.new }) do |order, hash_result|
-        target_id  = order.send(target[:target]).id
-        subject_id = order.send(target[:subject]).id
+      hash = orders.each_with_object(Hash.new { |k, v| k[v] = [] }) do |order, hash_result|
+        target_id = order.send(target[:target]).id
+        subject = order.send(target[:subject])
 
-        hash_result[target_id] << subject_id
+        hash_result[target_id] << subject
       end
 
-      hash.max_by(limit) { |_, unique_books_id| unique_books_id&.length || 0 }.to_h
+      hash.each_value { |subjects| subjects.uniq!(&:id) }.max_by(limit) { |_, subjects| subjects&.count || 0 }.to_h
     end
   end
 end
