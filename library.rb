@@ -11,7 +11,7 @@ class Library
   def initialize
     @unit = DAL::UnitOfWork.new
 
-    @order_bll = BLL::ReaderBLL.new
+    @order_bll = BLL::OrderBLL.new
 
     @books      = []
     @orders     = []

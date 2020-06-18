@@ -5,8 +5,8 @@ require_relative '../index'
 
 # Module contain entites that implements BLL
 module BLL
-  # Class contain business logic for 'reader'
-  class ReaderBLL
+  # Class contain business logic for 'order'
+  class OrderBLL
     def initialize
       @unit = DAL::UnitOfWork.new
     end
