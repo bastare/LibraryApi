@@ -53,4 +53,4 @@ logger.print_top_readers 5
 
 logger.print_top_books 5
 
-logger.print_number_of_top_readers 3
+logger.print_number_of_top_readers 2
