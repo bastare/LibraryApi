@@ -3,9 +3,7 @@
 
 require_relative '../index'
 
-# Module contain classes that represent Data Accsess Layer
 module DAL
-  # Unit of DAL entites
   class UnitOfWork
     attr_reader :author, :book, :order, :reader
 

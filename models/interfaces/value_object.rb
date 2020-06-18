@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-# Module contain classes that mapping with db entites
 module Models
-  # Module represent partition implementation of ValueObject pattern
   module ValueObject
     alias instance instance_variable_get
 

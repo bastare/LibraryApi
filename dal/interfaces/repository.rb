@@ -2,9 +2,7 @@
 
 require_relative '../../index'
 
-# Module contain classes that represent Data Accsess Layer
 module DAL
-  # Class represent abstraction for DAL entites
   class Repository
     attr_reader :path, :model
 
@@ -19,7 +17,7 @@ module DAL
     end
 
     def fetch_entity(id)
-      fetch_all&.find { |i| i&.id == id } || return
+      fetch_all&.find { |entity| entity&.id == id } || return
     end
 
     private

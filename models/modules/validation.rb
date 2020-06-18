@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
-# Module contain classes that mapping with db entites
 module Models
-  # Module contain validation behavior
   module Validatable
     protected
 
     def validation(target, predicate = nil, presence: false, &block)
       required_validation(target)                     if presence
-      condition_validation(target, predicate, &block) unless predicate.nil?
+      condition_validation(target, predicate, &block) if predicate
     end
 
     private

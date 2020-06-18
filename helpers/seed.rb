@@ -3,9 +3,7 @@
 
 require_relative '../index'
 
-# Module contain some extended logic for difference purpose
 module Helper
-  # Module contain logic for seeding data base
   module DataSeed
     class << self
       def seed_data(num, lib)

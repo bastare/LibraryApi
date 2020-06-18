@@ -3,9 +3,8 @@
 
 require_relative 'index'
 
-# Core entity dat contain all models & there behavior
 class Library
-  attr_reader   :unit, :order_bll
+  attr_reader   :unit,  :order_bll
   attr_accessor :books, :orders, :readers, :authors
 
   def initialize

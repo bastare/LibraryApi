@@ -2,7 +2,6 @@
 
 require_relative '../../index'
 
-# Module contain classes that represent Data Accsess Layer
 module DAL
   DB_NAME = 'db'
 

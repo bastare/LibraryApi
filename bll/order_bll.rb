@@ -3,9 +3,7 @@
 
 require_relative '../index'
 
-# Module contain entites that implements BLL
 module BLL
-  # Class contain business logic for 'order'
   class OrderBLL
     def initialize
       @unit = DAL::UnitOfWork.new
@@ -14,7 +12,7 @@ module BLL
     def top_readers(limit = 1)
       raise Error::ValidationError, 'Limit cannot be negative' unless limit&.positive?
 
-      orders = @unit.order.fetch_all || return
+      orders = @unit.order.fetch_all || raise(Error::ArgumentNilError, 'Database is empty')
 
       target = { subject: :reader, object: :book }
 
@@ -29,7 +27,7 @@ module BLL
     def top_books(limit = 1)
       raise Error::ValidationError, 'Limit cannot be negative' unless limit&.positive?
 
-      orders = @unit.order.fetch_all || return
+      orders = @unit.order.fetch_all || raise(Error::ArgumentNilError, 'Database is empty')
 
       target = { subject: :book, object: :reader }
 
@@ -44,20 +42,20 @@ module BLL
     def readers_interests(quan = 3)
       raise Error::ValidationError, 'Quantity cannot be negative' unless quan&.positive?
 
-      top_books(quan)&.map { |books_statistic| books_statistic[:unique_readers] }&.flatten&.uniq(&:id)&.length || 0
+      top_books(quan).map { |books_statistic| books_statistic[:unique_readers] }.flatten.uniq(&:id).count
     end
 
     private
 
     def initialize_statistic(limit, orders, **target)
-      hash = orders.each_with_object(Hash.new { |k, v| k[v] = [] }) do |order, hash_result|
-        subject_id = order.send(target[:subject])&.id || next
-        object = order.send(target[:object])          || next
+      statistic = orders.each_with_object(Hash.new { |k, v| k[v] = [] }) do |order, hash_result|
+        subject_id = order.send(target[:subject]).id
+        object     = order.send(target[:object])
 
         hash_result[subject_id] << object
       end
 
-      hash.each_value { |objects| objects.uniq!(&:id) }.max_by(limit) { |_, objects| objects&.count || 0 }.to_h
+      statistic.each_value { |objects| objects.uniq!(&:id) }.max_by(limit) { |_, objects| objects.count }.to_h
     end
   end
 end

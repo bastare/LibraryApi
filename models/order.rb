@@ -3,9 +3,7 @@
 
 require_relative '../index'
 
-# Module contain classes that mapping with db entites
 module Models
-  # Class represent 'order' model
   class Order < Entity
     attr_reader :date, :reader, :book
 

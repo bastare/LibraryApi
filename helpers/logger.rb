@@ -1,11 +1,8 @@
 # typed: true
 # frozen_string_literal: true
 
-# Module contain some extended logic for difference purpose
 module Helper
-  # Module contain methods for console outputs
   module Logger
-    # Class represent implementation of `Decorator` pattern, to give extended logic for Library, to log BLL results
     class LibraryLogger
       def initialize(library)
         @library = library || raise(ArgumentError, 'Value is nil')

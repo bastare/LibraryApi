@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Module contain classes that mapping with db entites
 module Models
   class << self
     def fetch_class(class_name)

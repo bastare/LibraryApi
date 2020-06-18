@@ -3,9 +3,7 @@
 
 require_relative '../index'
 
-# Module contain classes that represent Data Accsess Layer
 module DAL
-  # Class 'author' contain api for communnication with data storage
   class AuthorDAL < Repository
     def initialize(path)
       super path
