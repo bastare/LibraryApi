@@ -6,43 +6,43 @@ require_relative '../index'
 module Helper
   module DataSeed
     class << self
-      def seed_data(num, lib)
-        seed_author lib, num
-        seed_book   lib, num
-        seed_reader lib, num
-        seed_order  lib, num
+      def seed_data(number, library)
+        seed_author library, number
+        seed_book   library, number
+        seed_reader library, number
+        seed_order  library, number
 
-        lib.save
+        library.save
       end
 
       private
 
-      def seed_author(lib, num)
-        num.times do |i|
-          lib.authors << Models::Author.new(i, name: "au_#{i}")
+      def seed_author(library, number)
+        number.times do |index|
+          library.authors << Models::Author.new(index, name: "au_#{index}")
         end
       end
 
-      def seed_book(lib, num)
-        num.times do |i|
-          author =  lib.authors[Random.rand(num)]
+      def seed_book(library, number)
+        number.times do |index|
+          author =  library.authors[Random.rand(number)]
 
-          lib.books << Models::Book.new(i, title: "bo_#{i}", author: author)
+          library.books << Models::Book.new(index, title: "bo_#{index}", author: author)
         end
       end
 
-      def seed_reader(lib, num)
-        num.times do |i|
-          lib.readers << Models::Reader.new(i, name: '', house: i, email: '', city: '', street: '')
+      def seed_reader(library, number)
+        number.times do |index|
+          library.readers << Models::Reader.new(index, name: '', house: index, email: '', city: '', street: '')
         end
       end
 
-      def seed_order(lib, num)
-        num.times do |i|
-          reader = lib.readers[Random.rand(num)]
-          book   = lib.books[Random.rand(num)]
+      def seed_order(library, number)
+        number.times do |index|
+          reader = library.readers[Random.rand(number)]
+          book   = library.books[Random.rand(number)]
 
-          lib.orders << Models::Order.new(i, reader: reader, book: book)
+          library.orders << Models::Order.new(index, reader: reader, book: book)
         end
       end
     end
