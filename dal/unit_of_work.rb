@@ -8,7 +8,7 @@ module DAL
     attr_reader :author, :book, :order, :reader
 
     def initialize
-      @path = DAL.create_db(Helper.db_path)
+      @path = DAL.create_db(Helper::Configuration.db_path)
 
       @author = AuthorDAL.new @path
       @book   = BookDAL.new   @path
@@ -21,7 +21,7 @@ module DAL
 
       entitys_lists.flatten!
 
-      File.open(@path, 'w') { |f| f.write(entitys_lists.to_yaml) }
+      File.open(@path, 'w') { |file| file.write(entitys_lists.to_yaml) }
     end
 
     private

@@ -7,7 +7,7 @@ module DAL
 
   class << self
     def create_db(db_folder)
-      raise Error::ArgumentNilError, 'Wrong conf' if db_folder.nil?
+      raise Error::ArgumentNilError, 'Wrong configuration' if db_folder.nil?
 
       db_path = form_path(db_folder)
 
@@ -19,7 +19,7 @@ module DAL
     private
 
     def form_path(db_folder)
-      Dir.mkdir db_folder unless Dir.exist?(db_folder)
+      Dir.mkdir(db_folder) unless Dir.exist?(db_folder)
 
       "#{db_folder}/#{DB_NAME}.yaml"
     end

@@ -39,23 +39,20 @@ module BLL
       end
     end
 
-    def readers_interests(quan = 3)
-      raise Error::ValidationError, 'Quantity cannot be negative' unless quan&.positive?
+    def readers_interests(quantity = 3)
+      raise Error::ValidationError, 'Quantity cannot be negative' unless quantity&.positive?
 
-      top_books(quan).map { |books_statistic| books_statistic[:unique_readers] }.flatten.uniq(&:id).count
+      top_books(quantity).map { |books_statistic| books_statistic[:unique_readers] }.flatten.uniq(&:id).count
     end
 
     private
 
     def initialize_statistic(limit, orders, **target)
-      statistic = orders.each_with_object(Hash.new { |k, v| k[v] = [] }) do |order, hash_result|
-        subject_id = order.send(target[:subject]).id
-        object     = order.send(target[:object])
-
-        hash_result[subject_id] << object
-      end
-
-      statistic.each_value { |objects| objects.uniq!(&:id) }.max_by(limit) { |_, objects| objects.count }.to_h
+      orders
+        .group_by      { |order|         order.send(target[:subject]).id }
+        .each_value    { |object_orders| object_orders.map!(&target[:object]).uniq!(&:id) }
+        .max_by(limit) { |_, objects|    objects.count }
+        .to_h
     end
   end
 end

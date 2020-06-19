@@ -3,19 +3,22 @@
 require_relative '../index'
 
 module Helper
-  class << self
-    def db_path
-      create_settings unless File.exist? 'appsetings.json'
+  module Configuration
+    CONFIGURATION_FILE = 'appsetings.json'
+    DEFAULT_OPTIONS    = { dbPath: './db' }.freeze
 
-      JSON.parse(File.read('appsetings.json'))['dbPath'] || './db'
-    end
+    class << self
+      def db_path
+        create_settings unless File.exist? CONFIGURATION_FILE
 
-    private
+        JSON.parse(File.read(CONFIGURATION_FILE))[DEFAULT_OPTIONS.keys.first] || DEFAULT_OPTIONS.values.first
+      end
 
-    def create_settings
-      default_options = { dbPath: './db' }
+      private
 
-      File.open('appsetings.json', 'w') { |f| f.write(default_options.to_json) }
+      def create_settings
+        File.open(CONFIGURATION_FILE, 'w') { |file| file.write(DEFAULT_OPTIONS.to_json) }
+      end
     end
   end
 end
