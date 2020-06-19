@@ -25,7 +25,7 @@ module Helper
 
       def seed_book(library, number)
         number.times do |index|
-          author =  library.authors[Random.rand(number)]
+          author = library.authors[Random.rand(number)]
 
           library.books << Models::Book.new(index, title: "bo_#{index}", author: author)
         end

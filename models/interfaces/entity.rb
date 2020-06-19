@@ -5,8 +5,10 @@ require_relative 'value_object'
 
 module Models
   class Entity
-    include Validatable
     prepend ValueObject
+    include Validatable
+
+    extend  AbstractClass
 
     attr_reader :id
 

@@ -4,6 +4,8 @@ require_relative '../../index'
 
 module DAL
   class Repository
+    extend AbstractClass
+
     attr_reader :path, :model
 
     def initialize(path)
