@@ -4,8 +4,12 @@
 require_relative 'index'
 
 class Library
-  attr_reader   :unit,  :order_bll
-  attr_accessor :books, :orders, :readers, :authors
+  UndefineCollectionError = Class.new(ArgumentError)
+
+  using Helper::StrickArray
+
+  attr_reader :unit, :order_bll
+  attr_reader :books, :authors, :orders, :readers
 
   def initialize
     @unit = DAL::UnitOfWork.new
@@ -22,6 +26,10 @@ class Library
 
   def save
     @unit.save @authors, @books, @orders, @readers
+  end
+
+  def push(*args, entitys:)
+    send(entitys)&.push args || raise(UndefineCollectionError, 'Undefine entitys collection')
   end
 
   private

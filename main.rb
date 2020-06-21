@@ -12,38 +12,49 @@ unless library.unit.author.fetch_all&.any?
   author1 = Models::Author.new(11, name: 'first', biography: '')
   author2 = Models::Author.new(12, name: 'second', biography: '')
 
-  library.authors << author1
-  library.authors << author2
+  library.push author1, entitys: :authors
+  library.push author2, entitys: :authors
 
   book1 = Models::Book.new(11, title: 'some title', author: author1)
   book2 = Models::Book.new(12, title: 'some title', author: author2)
 
-  library.books << book1
-  library.books << book2
+  library.push book1, entitys: :books
+  library.push book2, entitys: :books
 
   reader1 = Models::Reader.new(11, name: 'dfsd', house: 7, email: '', city: '', street: '')
 
-  library.readers << reader1
+  library.push reader1,entitys: :readers
 
-  library.orders << Models::Order.new(11,
-                                      reader: library.unit.reader.fetch_entity(2),
-                                      book: library.unit.book.fetch_entity(1))
+  order1 = Models::Order.new(11,
+                             reader: library.unit.reader.fetch_entity(2),
+                             book: library.unit.book.fetch_entity(1))
 
-  library.orders << Models::Order.new(12,
-                                      reader: reader1,
-                                      book: book2)
+  library.push order1, entitys: :orders
 
-  library.orders << Models::Order.new(14,
-                                      reader: library.unit.reader.fetch_entity(9),
-                                      book: library.unit.book.fetch_entity(4))
+  order2 = Models::Order.new(12,
+                             reader: reader1,
+                             book: book2)
 
-  library.orders << Models::Order.new(16,
-                                      reader: library.unit.reader.fetch_entity(9),
-                                      book: library.unit.book.fetch_entity(3))
+  library.push order2, entitys: :orders
 
-  library.orders << Models::Order.new(18,
-                                      reader: library.unit.reader.fetch_entity(9),
-                                      book: library.unit.book.fetch_entity(3))
+  order3 = Models::Order.new(14,
+                             reader: library.unit.reader.fetch_entity(9),
+                             book: library.unit.book.fetch_entity(4))
+
+  library.push order3, entitys: :orders
+
+  order4 = Models::Order.new(16,
+                             reader: library.unit.reader.fetch_entity(9),
+                             book: library.unit.book.fetch_entity(3))
+
+  library.push order4, entitys: :orders
+
+  order5 = Models::Order.new(18,
+                             reader: library.unit.reader.fetch_entity(9),
+                             book: library.unit.book.fetch_entity(3))
+
+  library.push order5,entitys: :orders
+
   library.save
 end
 
