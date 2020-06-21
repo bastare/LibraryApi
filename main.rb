@@ -12,36 +12,36 @@ unless library.unit.author.fetch_all&.any?
   author1 = Models::Author.new(11, name: 'first', biography: '')
   author2 = Models::Author.new(12, name: 'second', biography: '')
 
-  library.authors << author1
-  library.authors << author2
+  library.add_author author1
+  library.add_author author2
 
   book1 = Models::Book.new(11, title: 'some title', author: author1)
   book2 = Models::Book.new(12, title: 'some title', author: author2)
 
-  library.books << book1
-  library.books << book2
+  library.add_book book1
+  library.add_book book2
 
   reader1 = Models::Reader.new(11, name: 'dfsd', house: 7, email: '', city: '', street: '')
 
-  library.readers << reader1
+  library.add_reader reader1
 
-  library.orders << Models::Order.new(11,
+  library.add_order Models::Order.new(11,
                                       reader: library.unit.reader.fetch_entity(2),
                                       book: library.unit.book.fetch_entity(1))
 
-  library.orders << Models::Order.new(12,
+  library.add_order Models::Order.new(12,
                                       reader: reader1,
                                       book: book2)
 
-  library.orders << Models::Order.new(14,
+  library.add_order Models::Order.new(14,
                                       reader: library.unit.reader.fetch_entity(9),
                                       book: library.unit.book.fetch_entity(4))
 
-  library.orders << Models::Order.new(16,
+  library.add_order Models::Order.new(16,
                                       reader: library.unit.reader.fetch_entity(9),
                                       book: library.unit.book.fetch_entity(3))
 
-  library.orders << Models::Order.new(18,
+  library.add_order Models::Order.new(18,
                                       reader: library.unit.reader.fetch_entity(9),
                                       book: library.unit.book.fetch_entity(3))
   library.save
